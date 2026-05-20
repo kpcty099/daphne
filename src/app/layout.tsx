@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import { Toaster } from "sonner";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 export const metadata: Metadata = {
   title: "interiorsby.daphne | Spaces That Feel Like Home",
@@ -20,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} dark antialiased`}>
+    <html lang="en" className="dark antialiased">
       <body className="min-h-screen bg-black text-white font-sans overflow-x-hidden">
         <Providers>
           {children}

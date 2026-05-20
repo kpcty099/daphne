@@ -43,7 +43,7 @@ function firePopup() {
  *  - 3rd+ visit to the site (cross-session)
  */
 export function useEngagement() {
-  const startTime = useRef(Date.now())
+  const startTime = useRef<number | null>(null)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const reelViewsThisSession = useRef(0)
 
@@ -51,7 +51,8 @@ export function useEngagement() {
   const checkThreshold = useCallback(() => {
     if (sessionStorage.getItem(SESSION_KEY)) return
     const data = load()
-    const timeOnPage = Math.floor((Date.now() - startTime.current) / 1000)
+    const startedAt = startTime.current ?? Date.now()
+    const timeOnPage = Math.floor((Date.now() - startedAt) / 1000)
 
     if (
       reelViewsThisSession.current >= 2 ||
@@ -71,6 +72,8 @@ export function useEngagement() {
   }, [checkThreshold])
 
   useEffect(() => {
+    startTime.current = Date.now()
+
     // Increment visit count once per session
     const data = load()
     const sessionActive = sessionStorage.getItem('daphne_session')
@@ -93,7 +96,8 @@ export function useEngagement() {
 
     // Track time on page — check every 5 seconds
     timerRef.current = setInterval(() => {
-      const seconds = Math.floor((Date.now() - startTime.current) / 1000)
+      const startedAt = startTime.current ?? Date.now()
+      const seconds = Math.floor((Date.now() - startedAt) / 1000)
       save({ timeOnPage: seconds })
       checkThreshold()
     }, 5000)

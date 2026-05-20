@@ -79,12 +79,14 @@ export function LeadPopup() {
         setSubmitted(false)
         setFormData({ name: '', email: '', phone: '', city: '', projectType: '', budget: '' })
       }, 2500)
-    } catch (err: any) {
-      // Log the full error object for debugging
+    } catch (err: unknown) {
       // Log the full error object for debugging
       console.error('Supabase insert error:', err);
       // Extract a useful message for the user
-      const errorMessage = (err?.message ?? err?.details ?? JSON.stringify(err)) || 'Something went wrong. Please try again or contact us directly.';
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : 'Something went wrong. Please try again or contact us directly.';
       toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);

@@ -10,7 +10,7 @@ export function BeforeAfter() {
   // Gentle intro animation to demonstrate interactivity on load
   useEffect(() => {
     const timer = setTimeout(() => {
-      let start = 30
+      const start = 30
       const end = 50
       const duration = 1200 // ms
       const startTime = performance.now()
